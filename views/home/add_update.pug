@@ -1,0 +1,46 @@
+include ../head.pug
+body
+    .container.mt-5
+      h1 Add/Update Book Review
+      form(action="/submit-event-form" method="POST")
+        .mb-3
+          label(for="title" class="form-label") Title
+          input(type="text" class="form-control" id="title" name="title" required)
+        .mb-3
+          label(for="author" class="form-label") Author
+          input(type="text" class="form-control" id="author" name="author" required)
+        .mb-3
+          label(for="genre" class="form-label") Genre
+          select(class="form-select" id="genre" name="genre" required)
+            option(value="" selected disabled) -- Select Genre --
+            option(value="Fiction") Fiction
+            option(value="Non-fiction") Non-fiction
+            option(value="Mystery") Mystery
+            option(value="Fantasy") Fantasy
+            option(value="Biography") Biography
+            option(value="Science Fiction") Science Fiction
+            option(value="Other") Other
+        .mb-3
+          label(for="rating" class="form-label") Rating
+          select(class="form-select" id="rating" name="rating" required)
+            option(value="" selected disabled) -- Select Rating --
+            each val in [1, 2, 3, 4, 5]
+                option(value=val)= val
+        .mb-3
+          label(for="readingDate" class="form-label") Date Finished
+          .input-group.date(id="datetimepicker1" data-target-input="nearest")
+            input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="readingDate" name="readingDate" required)
+            .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
+                .input-group-text
+                    i.fas.fa-calendar-alt
+        button(type="submit" class="btn btn-primary") Add/Edit
+
+    script.
+        const picker = new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
+            localization: {
+                'locale': 'fr'
+            }
+        });
+        picker.dates.formatInput = function(date) {
+            return moment(date).format('DD/MM/YYYY HH:mm')
+        }
