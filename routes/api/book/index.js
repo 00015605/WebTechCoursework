@@ -1,6 +1,7 @@
 const express = require('express');
 const { validationResult } = require('express-validator');
-const { addBookValidation } = require('../../../validators/book');
+const { addBookValidation, deleteBookValidation } = require('../../../validators/book');
+require('../../../validators/book');
 
 const router = express.Router();
 const book_controller = require('../../../controllers/api/book');
@@ -18,6 +19,15 @@ router.post('/', addBookValidation(), (req, res)=>{
     }
 
     book_controller.create(req, res)
+});
+
+router.delete('/:id', deleteBookValidation(), (req, res, next)=>{
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  book_controller.delete(req, res)
 });
 
 module.exports = router;

@@ -8,6 +8,9 @@ const book_service = {
     getAll() {
         return books
     },
+    getById(id) {
+        return books.find(b => b.id == id)
+    },
     create(req, res) {
         let new_id = genRandId(4)
                 
@@ -23,6 +26,11 @@ const book_service = {
         writeToFile(books)
         
         return new_book
+    },
+    delete(id) {
+        const index = books.findIndex(u => u.id == id)
+        books.splice(index, 1)    
+        writeToFile(books)
     }
 };
 

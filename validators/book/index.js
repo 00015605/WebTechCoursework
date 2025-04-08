@@ -1,4 +1,5 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
+const book_service = require('../../services/book');
 
 const addBookValidation = () => {
   return [
@@ -19,6 +20,18 @@ const addBookValidation = () => {
   ];
 };
 
+const deleteBookValidation = () => {
+  return [
+    param('id').custom(async (id) => {
+      const exists = await book_service.getById(id);
+      if (!exists) {
+        throw new Error('Book not found');
+      }
+    })
+  ];
+};
+
 module.exports = {
-    addBookValidation
+    addBookValidation,
+    deleteBookValidation
 };
