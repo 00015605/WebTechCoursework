@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "id": "odTP",
+        "book": {
+            "title": "Pride and Prejudice",
+            "author": "Jane Austen",
+            "genre": "Fiction",
+            "rating": "5",
+            "dateFinished": "08/04/2025 19:48"
+        }
+    }
+]

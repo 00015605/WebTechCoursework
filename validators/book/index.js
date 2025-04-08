@@ -25,7 +25,7 @@ const deleteBookValidation = () => {
     param('id').custom(async (id) => {
       const exists = await book_service.getById(id);
       if (!exists) {
-        throw new Error('Book not found');
+        throw new Error('Book not found!');
       }
     })
   ];
