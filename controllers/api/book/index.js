@@ -11,6 +11,15 @@ const book_controller = {
             book_service.create(req, res)
         )
     },
+    update(req, res) {
+        const book = book_service.update(req.params.id, req.body)
+        
+        if (book) {
+            res.json(book)
+        } else {
+            res.status(404).send('Book not found!')
+        }
+    },
     delete(req, res) {
         const book = book_service.getById(req.params.id)
         

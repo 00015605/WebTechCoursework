@@ -1,46 +1,82 @@
 include ../head.pug
 body
-    .container.mt-5
-      h1 Add/Update Book Review
-      form(action="/submit-event-form" method="POST")
-        .mb-3
-          label(for="title" class="form-label") Title
-          input(type="text" class="form-control" id="title" name="title" required)
-        .mb-3
-          label(for="author" class="form-label") Author
-          input(type="text" class="form-control" id="author" name="author" required)
-        .mb-3
-          label(for="genre" class="form-label") Genre
-          select(class="form-select" id="genre" name="genre" required)
-            option(value="" selected disabled) -- Select Genre --
-            option(value="Fiction") Fiction
-            option(value="Non-fiction") Non-fiction
-            option(value="Mystery") Mystery
-            option(value="Fantasy") Fantasy
-            option(value="Biography") Biography
-            option(value="Science Fiction") Science Fiction
-            option(value="Other") Other
-        .mb-3
-          label(for="rating" class="form-label") Rating
-          select(class="form-select" id="rating" name="rating" required)
-            option(value="" selected disabled) -- Select Rating --
-            each val in [1, 2, 3, 4, 5]
-                option(value=val)= val
-        .mb-3
-          label(for="dateFinished" class="form-label") Date Finished
-          .input-group.date(id="datetimepicker1" data-target-input="nearest")
-            input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="dateFinished" name="readingDate" required)
-            .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
-                .input-group-text
-                    i.fas.fa-calendar-alt
-        button(type="submit" class="btn btn-primary") Add/Edit
+  .container.mt-5
+    h1 #{mode}
+    .mb-3
+      label(for="title" class="form-label") Title
+      input(type="text" class="form-control" id="title" name="title" required)
+    .mb-3
+      label(for="author" class="form-label") Author
+      input(type="text" class="form-control" id="author" name="author" required)
+    .mb-3
+      label(for="genre" class="form-label") Genre
+      select(class="form-select" id="genre" name="genre" required)
+        option(value="" selected disabled) -- Select Genre --
+        option(value="Fiction") Fiction
+        option(value="Non-fiction") Non-fiction
+        option(value="Mystery") Mystery
+        option(value="Fantasy") Fantasy
+        option(value="Biography") Biography
+        option(value="Science Fiction") Science Fiction
+        option(value="Other") Other
+    .mb-3
+      label(for="rating" class="form-label") Rating
+      select(class="form-select" id="rating" name="rating" required)
+        option(value="" selected disabled) -- Select Rating --
+        each val in [1, 2, 3, 4, 5]
+          option(value=val) #{val}
+    .mb-3
+      label(for="dateFinished" class="form-label") Date Finished
+      .input-group.date(id="datetimepicker1" data-target-input="nearest")
+        input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="dateFinished" name="dateFinished" required)
+        .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
+          .input-group-text
+            i.fas.fa-calendar-alt
+    button(type="submit" class="btn btn-success" onclick="submitForm()") #{mode === 'Update' ? 'Update' : 'Add'}
+    span &nbsp;
+    button(type="submit" class="btn btn-primary" onclick="window.location.href='/'") Back To List
 
-    script.
-        const picker = new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
-            localization: {
-                'locale': 'fr'
-            }
-        });
-        picker.dates.formatInput = function(date) {
-            return moment(date).format('DD/MM/YYYY HH:mm')
+  script.
+    const picker = new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'), {
+      localization: {
+        'locale': 'fr'
+      }
+    });
+
+    picker.dates.formatInput = function(date) {
+      return moment(date).format('DD/MM/YYYY HH:mm')
+    };
+
+    if ("#{mode}" === "Update") {
+      const bookData = #{JSON.stringify(bookData || {})};
+      document.getElementById('title').value = bookData.title || '';
+      picker.dates.setValue(new tempusDominus.DateTime(moment(bookData.dateFinished)));
+      document.getElementById('author').value = bookData.author || '';
+      document.getElementById('genre').value = bookData.genre || '';
+      document.getElementById('rating').value = bookData.rating || '';
+    }
+
+    function submitForm() {
+      const bookData = {
+        title: document.getElementById('title').value,
+        author: document.getElementById('author').value,
+        genre: document.getElementById('genre').value,
+        rating: document.getElementById('rating').value,
+        dateFinished: document.getElementById('dateFinished').value,
+      };
+
+      const url = "#{mode}" === "Update" ? `/api/book/${bookData.id}` : '/api/book';
+      const method = "#{mode}" === "Update" ? 'put' : 'post';
+
+      axios[method](url, bookData).then(response => {
+        alert('Success!');
+        location.href = '/'
+      })
+      .catch(error => {
+        if (error.response) {
+          alert(JSON.stringify(error.response.data.errors))
+        } else {
+          alert(error)
         }
+      });
+    }

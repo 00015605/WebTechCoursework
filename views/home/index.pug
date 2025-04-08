@@ -30,7 +30,7 @@ body
                 <td>${book.rating}</td>
                 <td>${book.datefinished}</td>
                 <td>
-                  <button class="btn btn-primary btn-sm">Edit</button>
+                  <button class="btn btn-primary btn-sm data-id="${b.id}" onclick="window.location.href='/update/${b.id}'"">Edit</button>
                   <button class="btn btn-danger btn-sm" data-id="${b.id}">Delete</button>
                 </td>
               `;
@@ -55,4 +55,3 @@ body
             }
           });
       });
-

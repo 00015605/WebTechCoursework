@@ -27,6 +27,19 @@ const book_service = {
         
         return new_book
     },
+    update(id, updateData){
+        const bookIndex = books.findIndex(b => b.id == id)
+
+        if (bookIndex === -1) {
+            return null
+        }
+
+        books[bookIndex].book = { ...books[bookIndex].book, ...updateData }
+
+        writeToFile(books)
+
+        return books[bookIndex]
+    },
     delete(id) {
         const index = books.findIndex(u => u.id == id)
         books.splice(index, 1)    
