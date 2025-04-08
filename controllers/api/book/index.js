@@ -5,6 +5,11 @@ const book_service = require('../../../services/book/');
 const book_controller = {
     getAll(req, res) {
         res.json(book_service.getAll());
+    },
+    create(req, res) {
+        res.status(201).json(
+            book_service.create(req, res)
+        )
     }
 };
 

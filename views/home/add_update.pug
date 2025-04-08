@@ -27,9 +27,9 @@ body
             each val in [1, 2, 3, 4, 5]
                 option(value=val)= val
         .mb-3
-          label(for="readingDate" class="form-label") Date Finished
+          label(for="dateFinished" class="form-label") Date Finished
           .input-group.date(id="datetimepicker1" data-target-input="nearest")
-            input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="readingDate" name="readingDate" required)
+            input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="dateFinished" name="readingDate" required)
             .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
                 .input-group-text
                     i.fas.fa-calendar-alt
