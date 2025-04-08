@@ -1,7 +1,6 @@
 const express = require('express');
 const { validationResult } = require('express-validator');
-const { addBookValidation, deleteBookValidation, updateBookValidation } = require('../../../validators/book');
-require('../../../validators/book');
+const { addBookValidation, updateBookValidation, deleteBookValidation } = require('../../../validators/book');
 
 const router = express.Router();
 const book_controller = require('../../../controllers/api/book');

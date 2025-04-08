@@ -58,6 +58,6 @@ const updateBookValidation = () => {
 
 module.exports = {
     addBookValidation,
-    deleteBookValidation,
-    updateBookValidation
+    updateBookValidation,
+    deleteBookValidation
 };
