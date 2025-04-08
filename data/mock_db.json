@@ -5,8 +5,18 @@
             "title": "Pride and Prejudice",
             "author": "Jane Austen",
             "genre": "Fiction",
-            "rating": "3",
+            "rating": "5",
             "dateFinished": "08/04/2025 19:48"
+        }
+    },
+    {
+        "id": "SMVJ",
+        "book": {
+            "title": "Nobody Knows",
+            "author": "Paul Allen",
+            "genre": "Mystery",
+            "rating": "2",
+            "dateFinished": "01/01/2025 21:02"
         }
     }
 ]

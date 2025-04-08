@@ -1,22 +1,31 @@
 include ../head.pug
-body
-  .container.mt-5
-    .row.d-flex.align-items-center
-      .col-md-6
-        h1 List
-      .col-md-6.text-end
-        a.btn.btn-success(href='/add', role='button') Add
-    table.table.table-responsive.table-hover.table-striped.table-dark
-      thead
-        tr
-          th(scope="col") ID
-          th(scope="col") Title
-          th(scope="col") Author
-          th(scope="col") Genre
-          th(scope="col") Rating
-          th(scope="col") Date Finished
-          th(scope="col") Actions
-      tbody
+
+body.bg-light.text-dark
+  .container.py-5
+    .d-flex.justify-content-between.align-items-center.mb-4
+      h1.display-6.mb-0.text-primary Book Library
+      a.btn.btn-success.btn-lg.shadow-sm(href='/add', role='button')
+        i.fas.fa-plus-circle.me-2
+        | Add Book
+
+    .card.shadow-sm.rounded-4.border-0
+      .card-body.p-0
+        table.table.table-hover.table-striped.mb-0
+          thead.table-light
+            tr
+              th(scope="col") ID
+              th(scope="col") Title
+              th(scope="col") Author
+              th(scope="col") Genre
+              th(scope="col") Rating
+              th(scope="col") Date Finished
+              th(scope="col") Actions
+          tbody
+
+  .text-center.text-muted.mt-5.small
+    | This web application was created to fulfill 
+    b Web Technology 
+    | module’s requirements and does not represent an actual company or service.
 
   script.
     document.addEventListener('DOMContentLoaded', function() {
@@ -35,8 +44,12 @@ body
               <td>${book.rating}</td>
               <td>${book.dateFinished}</td>
               <td>
-                <button class="btn btn-primary btn-sm" data-id="${b.id}" onclick="window.location.href='/update/${b.id}'">Update</button>
-                <button class="btn btn-danger btn-sm" data-id="${b.id}">Delete</button>
+                <a href="/update/${b.id}" class="btn btn-sm btn-outline-primary me-1">
+                  <i class="fas fa-edit"></i> Update
+                </a>
+                <button class="btn btn-sm btn-outline-danger" data-id="${b.id}">
+                  <i class="fas fa-trash-alt"></i> Delete
+                </button>
               </td>
             `;
             tableBody.appendChild(row);
@@ -46,20 +59,18 @@ body
           console.log(error);
         });
 
-      // Use event delegation for delete buttons
       document.addEventListener('click', function(event) {
-        if (event.target && event.target.classList.contains('btn-danger')) {
-          const bookId = event.target.getAttribute('data-id');
-          axios.delete(`/api/book/${bookId}`).then(function(response) {
-            alert('Deleted Successfully!', response);
-            location.href = '/';
-          })
-          .catch(function(error) {
-            console.log('Error deleting book: ' + error);
-          });
+        if (event.target.closest('.btn-outline-danger')) {
+          const btn = event.target.closest('.btn-outline-danger');
+          const bookId = btn.getAttribute('data-id');
+          axios.delete(`/api/book/${bookId}`)
+            .then(function(response) {
+              alert('Deleted Successfully!');
+              location.reload();
+            })
+            .catch(function(error) {
+              console.log('Error deleting book:', error);
+            });
         }
       });
     });
-
-  .my-5
-    p.text-center This web application was created to fulfill Web Technology module’s requirements and does not represent an actual company or service

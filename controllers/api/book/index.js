@@ -1,4 +1,3 @@
-// import specific service class
 const book_service = require('../../../services/book');
 
 const book_controller = {

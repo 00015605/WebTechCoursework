@@ -1,9 +1,6 @@
 const fs = require('fs');
-
-// access global mock db file
 const books = require(global.mock_db);
 
-// write service method implementations
 const book_service = {
     getAll() {
         return books
@@ -47,7 +44,7 @@ const book_service = {
     }
 };
 
-// create function for overwriting the db file updated db content
+// function for overwriting the db file when content is updated
 let writeToFile = async (users) => {
     await 
         fs.writeFileSync(
@@ -59,7 +56,7 @@ let writeToFile = async (users) => {
         )
 }
 
-// generate random id inspired by uuid
+// generating random ids
 let genRandId = (count) =>{
     let result = ''
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
