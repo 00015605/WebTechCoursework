@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "id": "1",
+        "book": {    
+            "title": "Pride and Prejudice",
+            "author": "Jane Austen",
+            "genre": "Fiction",
+            "rating": "5",
+            "datefinished": "12/02/2024 19:12"
+        }
+    }
+]

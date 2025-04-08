@@ -13,23 +13,32 @@ body
             th(scope="col") Date Finished
             th(scope="col") Actions
         tbody
-          tr
-            td 1
-            td Pride and Prejudice
-            td Jane Austen
-            td Fiction
-            td 5
-            td 08/04/2025 13:56
-            td
-              button.btn.btn-primary.btn-sm Edit
-              button.btn.btn-danger.btn-sm Delete
-          tr
-            td 2
-            td Whispers of the Forgotten Vale
-            td Elara Winslow
-            td Fantasy
-            td 4
-            td 24/02/2025 14:15
-            td
-              button.btn.btn-primary.btn-sm Edit
-              button.btn.btn-danger.btn-sm Delete
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        axios.get('/api/book')
+          .then(function(response) {
+            const books = response.data;
+            const tableBody = document.querySelector('table tbody');
+            books.forEach(b => {
+              const row = document.createElement('tr');
+              const book = b.book
+              row.innerHTML = `
+                <td>${b.id}</td>
+                <td>${book.title}</td>
+                <td>${book.author}</td>
+                <td>${book.genre}</td>
+                <td>${book.rating}</td>
+                <td>${book.datefinished}</td>
+                <td>
+                  <button class="btn btn-primary btn-sm">Edit</button>
+                  <button class="btn btn-danger btn-sm">Delete</button>
+                </td>
+              `;
+              tableBody.appendChild(row);
+            });
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      });
+
